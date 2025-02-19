@@ -1,0 +1,295 @@
+* {
+   box-sizing: border-box;
+   margin: 0;
+   padding: 0;
+}
+body {
+   font-family: Arial, sans-serif;
+   display: flex;
+   flex-direction: column;
+   gap: 20px;
+   justify-content: center;
+   align-items: center;
+   min-height: 100vh;
+   background-color: #f5f5f5;
+   padding: 20px;
+}
+.container {
+   max-width: 1200px;
+   width: 100%;
+   height: 70vh;
+   display: grid;
+   grid-template-columns: 2fr 1fr;
+   grid-template-rows: 1fr;
+   gap: 10px;
+}
+.main-img {
+   width: 100%;
+   height: 100%;
+   object-fit: cover;
+   border-top-left-radius: 10px;
+   border-bottom-left-radius: 10px;
+}
+.small-img-container {
+   display: flex;
+   flex-direction: column;
+   gap: 10px;
+   height: 100%;
+}
+.small-img {
+   width: 100%;
+   height: 50%;
+   object-fit: cover;
+}
+.small-img-1 {
+   border-top-right-radius: 10px;
+}
+.small-img-2 {
+   border-bottom-right-radius: 10px;
+}
+@media (max-width: 768px) {
+   .container {
+       grid-template-columns: 1fr;
+       grid-template-rows: auto auto auto;
+   }
+   .main-img {
+       grid-column: 1 / 2;
+       grid-row: 1 / 2;
+   }
+   .small-img-container {
+       flex-direction: row;
+       justify-content: space-between;
+       height: auto;
+   }
+   .small-img {
+       width: 48%;
+       height: auto;
+   }
+}
+
+.bottom {
+   max-width: 1200px;
+   width: 100%;
+   display: flex;
+   justify-content: space-between;
+   gap: 10px;
+   margin-top: 10px; /* Adjust spacing */
+}
+
+/* Buttons */
+
+.button-container {
+   display: flex;
+   gap: 8px;
+   position: relative;
+}
+
+.button {
+   display: inline-flex;
+   align-items: center;
+   gap: 8px;
+   padding: 8px 16px;
+   border-radius: 9999px;
+   border: 1px solid #e5e7eb;
+   background-color: white;
+   font-size: 14px;
+   font-weight: 500;
+   color: #111827;
+   cursor: pointer;
+   transition: background-color 0.2s;
+}
+
+.button:hover {
+   background-color: #f9fafb;
+}
+
+.button svg {
+   width: 16px;
+   height: 16px;
+}
+
+.tooltip {
+   position: absolute;
+   top: calc(100% + 8px);
+   left: 0;
+   background-color: #4b5563;
+   color: white;
+   padding: 8px 12px;
+   border-radius: 6px;
+   font-size: 14px;
+   white-space: nowrap;
+   opacity: 0;
+   visibility: hidden;
+   transition: opacity 0.2s, visibility 0.2s;
+}
+
+.tooltip::before {
+   content: '';
+   position: absolute;
+   top: -4px;
+   left: 24px;
+   width: 8px;
+   height: 8px;
+   background-color: #4b5563;
+   transform: rotate(45deg);
+}
+
+.button:hover + .tooltip {
+   opacity: 1;
+   visibility: visible;
+}
+
+
+/*Cards*/
+
+.card {
+   max-width: 400px;
+   padding: 16px;
+   background: #fff;
+   border-radius: 8px;
+   box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+.dealer-info {
+   display: flex;
+   gap: 16px;
+   margin-bottom: 24px;
+}
+
+.dealer-logo {
+   width: 80px;
+   height: 80px;
+   background: #f5f5f5;
+   border-radius: 4px;
+}
+.dealer-logo img {
+   width: 100%;
+   height: 100%;
+   object-fit: cover;
+   border-radius: 4px;
+}
+
+.dealer-details h1 {
+   font-size: 18px;
+   margin-bottom: 4px;
+}
+
+.dealer-type {
+   color: #666;
+   font-size: 14px;
+   margin-bottom: 8px;
+}
+
+.view-all {
+   color: #1a73e8;
+   text-decoration: none;
+   font-size: 14px;
+}
+
+.verification-box {
+   background: #f8f9fe;
+   border-radius: 8px;
+   padding: 16px;
+   margin-bottom: 24px;
+   display: flex;
+   justify-content: space-between;
+   align-items: center;
+}
+
+.verification-content h2 {
+   font-size: 16px;
+   margin-bottom: 8px;
+}
+
+.verification-content p {
+   font-size: 14px;
+   color: #666;
+   margin-bottom: 16px;
+}
+
+.get-started {
+   background: #333;
+   color: white;
+   border: none;
+   padding: 8px 16px;
+   border-radius: 4px;
+   cursor: pointer;
+}
+
+.verification-image {
+   width: 100px;
+   height: 100px;
+   background: #e8eeff;
+   border-radius: 8px;
+}
+
+.action-buttons {
+   display: flex;
+   flex-direction: column;
+   gap: 8px;
+}
+
+.book-test {
+   background: #f8f9fe;
+   color: #333;
+   border: none;
+   padding: 12px;
+   border-radius: 8px;
+   width: 100%;
+   font-weight: bold;
+   cursor: pointer;
+   display: flex;
+   align-items: center;
+   justify-content: center;
+   gap: 8px;
+}
+
+.contact-buttons {
+   display: flex;
+   gap: 8px;
+}
+
+.call-btn, .whatsapp-btn {
+   flex: 1;
+   padding: 12px;
+   border: none;
+   border-radius: 8px;
+   font-weight: bold;
+   cursor: pointer;
+   display: flex;
+   align-items: center;
+   justify-content: center;
+   gap: 8px;
+}
+
+.call-btn {
+   background: #fff1f1;
+   color: #ff4444;
+}
+
+.whatsapp-btn {
+   background: #e7f5e7;
+   color: #25d366;
+}
+
+@media (max-width: 768px) {
+   .dealer-info,
+   .verification-box {
+       display: none;
+   }
+
+   .card {
+       box-shadow: none;
+       padding: 8px;
+   }
+
+   .action-buttons {
+       position: fixed;
+       bottom: 0;
+       left: 0;
+       right: 0;
+       background: white;
+       padding: 16px;
+       box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
+   }
+}

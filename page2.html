@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Car Gallery</title>
+    <link rel="stylesheet" href="page2.css" />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/icon?family=Material+Icons"
+    />
+  </head>
+  <body>
+    <!-- Navbar -->
+    <nav class="navbar">
+      <button class="nav-button back-button">
+        <span class="material-icons">arrow_back</span>
+      </button>
+      <div class="nav-actions">
+        <button class="nav-button">
+          <span class="material-icons">favorite_border</span>
+          <span class="button-text">Favorite</span>
+        </button>
+        <button class="nav-button">
+          <span class="material-icons">share</span>
+          <span class="button-text">Share</span>
+        </button>
+      </div>
+    </nav>
+    <div class="container">
+      <!-- Gallery Grid -->
+      <div class="gallery">
+        <!-- Hero Image -->
+        <div class="image-wrapper aspect-16-9 full-width">
+          <img src="./images/360.avif" alt="Car hero view" />
+        </div>
+
+        <!-- Secondary Images Row -->
+        <div class="image-wrapper aspect-4-3">
+          <img src="./images/img1.avif" alt="Car front angle" />
+        </div>
+        <div class="image-wrapper aspect-4-3">
+          <img src="./images/2ndimg.jpg" alt="Car front view" />
+        </div>
+
+        <!-- Full Width Image -->
+        <div class="image-wrapper aspect-16-8 full-width">
+          <img src="./images/3rdImg.avif" alt="Car full view" />
+        </div>
+        <div class="image-wrapper aspect-16-9 full-width">
+          <img src="./images/img4.avif" alt="Car full view" />
+        </div>
+
+        <!-- Interior Details Grid -->
+        <div class="two-column">
+          <div class="image-wrapper aspect-4-3">
+            <img
+              src="./images/img5.avif"
+              alt="Interior detail - dashboard trim"
+            />
+          </div>
+          <div class="image-wrapper aspect-4-3">
+            <img src="./images/img7.webp" alt="Interior detail - seats" />
+          </div>
+        </div>
+
+        <!-- Additional Interior Details -->
+        <div class="two-column">
+          <div class="image-wrapper aspect-4-3">
+            <img src="./images/img8.webp" alt="Rear seats" />
+          </div>
+          <div class="image-wrapper aspect-4-3">
+            <img src="./images/img9.avif" alt="Center console display" />
+          </div>
+        </div>
+
+        <!-- Full Width Interior Dashboard -->
+        <div class="image-wrapper aspect-16-9 full-width">
+          <img src="./images/img10.avif" alt="Dashboard and steering wheel" />
+        </div>
+        <!-- Interior Details Grid -->
+        <div class="two-column">
+          <div class="image-wrapper aspect-4-3">
+            <img
+              src="./images/img11.avif"
+              alt="Interior detail - dashboard trim"
+            />
+          </div>
+          <div class="image-wrapper aspect-4-3">
+            <img src="./images/img12.avif" alt="Interior detail - seats" />
+          </div>
+        </div>
+
+        <!-- Additional Interior Details -->
+        <div class="two-column">
+          <div class="image-wrapper aspect-4-3">
+            <img src="./images/img13.avif" alt="Rear seats" />
+          </div>
+          <div class="image-wrapper aspect-4-3">
+            <img src="./images/img14.avif" alt="Center console display" />
+          </div>
+        </div>
+
+        <!-- Full Width Interior Dashboard -->
+        <div class="image-wrapper aspect-16-9 full-width">
+          <img src="./images/img15.webp" alt="Dashboard and steering wheel" />
+        </div>
+
+        <!-- Detail Shots Grid -->
+        <div class="two-column">
+          <div class="image-wrapper aspect-4-3">
+            <img src="./images/img16.avif" alt="Interior trim detail" />
+          </div>
+          <div class="image-wrapper aspect-4-3">
+            <img src="./images/img17.avif" alt="Steering wheel controls" />
+          </div>
+        </div>
+
+        <!-- Digital Display -->
+        <div class="image-wrapper aspect-16-9 full-width">
+          <img src="./images/img18.avif" alt="Digital instrument cluster" />
+        </div>
+      </div>
+    </div>
+    <!-- Sticky Footer -->
+    <div class="sticky-footer">
+      <!-- Logo -->
+      <div class="logo-placeholder">
+        <img src="./images/logo.avif" alt="logo">
+      </div>
+
+      <!-- Brand Name -->
+      <span class="brand-name">dubizzle cars</span>
+
+      <!-- Buttons -->
+      <div class="button-group">
+        <button class="btn test-drive">
+          <img src="./images/CarIcon.svg" alt="Test Drive Icon" /> Book Test
+          Drive
+        </button>
+        <button class="btn call">
+          <img src="./images/callImg.svg" alt="Call Icon" /> Call
+        </button>
+        <button class="btn whatsapp">
+          <img src="./images/wpImg.svg" alt="WhatsApp Icon" />
+        </button>
+      </div>
+    </div>
+    <script>
+      // Get the back button
+      const backButton = document.querySelector(".back-button");
+
+      // Function to check screen width and redirect accordingly
+      function handleBackNavigation() {
+        if (window.innerWidth < 760) {
+          window.location.href = "Home2.html";
+        } else {
+          window.location.href = "Home.html";
+        }
+      }
+
+      // Add click event listener
+      backButton.addEventListener("click", handleBackNavigation);
+
+      // Optional: Handle window resize
+      window.addEventListener("resize", () => {
+        if (document.referrer.includes("Home")) {
+          handleBackNavigation();
+        }
+      });
+    </script>
+  </body>
+</html>

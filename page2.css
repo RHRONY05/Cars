@@ -1,0 +1,284 @@
+/*Carrs*/
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  background-color: #fff;
+}
+
+.container {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 2rem 1rem;
+}
+
+.logo {
+  margin-bottom: 2rem;
+  font-size: 1.5rem;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.logo-pro {
+  color: #dc2626;
+}
+
+.gallery {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+}
+
+.image-wrapper {
+  position: relative;
+  width: 100%;
+  border-radius: 0.5rem;
+  overflow: hidden;
+  background-color: #f5f5f5;
+}
+
+.image-wrapper img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.aspect-16-9 {
+  aspect-ratio: 16/9;
+}
+.aspect-16-8 {
+  width: 100%;
+  height: 220px;
+}
+
+.aspect-4-3 {
+  aspect-ratio: 4/3;
+}
+
+.aspect-3-2 {
+  aspect-ratio: 3/2;
+}
+
+.two-column {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+}
+
+.three-column {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+}
+
+@media (min-width: 768px) {
+  .gallery {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .full-width {
+    grid-column: span 2;
+  }
+
+  .two-column {
+    grid-template-columns: repeat(2, 1fr);
+    grid-column: span 2;
+  }
+
+  .three-column {
+    grid-template-columns: repeat(3, 1fr);
+    grid-column: span 2;
+  }
+}
+
+/* Navbar */
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+  background-color: white;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.nav-actions {
+  display: flex;
+  gap: 1rem;
+}
+
+.nav-button {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem;
+  border: none;
+  background: none;
+  cursor: pointer;
+  color: #333;
+  font-size: 0.9rem;
+  transition: all 0.2s ease;
+}
+
+.nav-button:hover {
+  color: #000;
+  background-color: rgba(0, 0, 0, 0.05);
+  border-radius: 4px;
+}
+
+.material-icons {
+  font-size: 24px;
+}
+
+.button-text {
+  font-weight: 500;
+}
+
+@media (max-width: 600px) {
+  .button-text {
+    display: none;
+  }
+
+  .nav-actions {
+    gap: 0.5rem;
+  }
+
+  .navbar {
+    padding: 0.75rem;
+  }
+}
+
+/* Footer */
+/* Sticky Footer */
+.sticky-footer {
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: white;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+  border-radius: 50px;
+  padding: 12px 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  width: 90%;
+  max-width: 600px;
+  height: 70px;
+}
+
+/* Logo Placeholder */
+.logo-placeholder {
+  width: 45px;
+  height: 45px;
+  flex-shrink: 0;
+}
+
+.logo-placeholder img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 50%;
+}
+
+/* Brand Name */
+.brand-name {
+  font-size: 16px;
+  font-weight: 600;
+  color: #333;
+  white-space: nowrap;
+}
+
+/* Button Group */
+.button-group {
+  display: flex;
+  gap: 12px;
+  flex-grow: 1;
+  justify-content: flex-end;
+}
+
+/* Buttons */
+.btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 16px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  height: 40px;
+  white-space: nowrap;
+}
+
+.btn img {
+  width: 20px;
+  height: 20px;
+  margin-right: 8px;
+}
+
+/* Button Colors and Specific Sizes */
+.test-drive {
+  background: #e3f2fd;
+  color: #1565c0;
+  min-width: 150px;
+}
+
+.call {
+  background: #ffebee;
+  color: #d32f2f;
+  min-width: 100px;
+}
+
+.btn.whatsapp {
+  background: #e8f5e9;
+  color: #388e3c;
+  width: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Media Queries for Responsive Design */
+@media (max-width: 600px) {
+  .sticky-footer {
+    width: 100%;
+    bottom: 0;
+    left: 0;
+    transform: none;
+    border-radius: 0;
+    padding: 8px 16px;
+  }
+
+  /* Hide logo and brand name on mobile */
+  .logo-placeholder,
+  .brand-name {
+    display: none;
+  }
+
+  /* Show only button group on mobile */
+  .button-group {
+    width: 100%;
+    justify-content: space-between;
+  }
+}
+
+/* Desktop styles (above 600px) */
+@media (min-width: 601px) {
+  .sticky-footer {
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 90%;
+    max-width: 600px;
+    border-radius: 50px;
+  }
+}

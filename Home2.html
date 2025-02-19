@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Car Slider</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+          sans-serif;
+        padding-bottom: 100px;
+      }
+
+      .container {
+        max-width: 750px;
+        margin: 0 auto;
+        position: relative;
+      }
+
+      /* Slider */
+      .slider {
+        position: relative;
+        width: 100%;
+        aspect-ratio: 16/9;
+        background: #f5f5f5;
+        overflow: hidden;
+      }
+
+      .slider-container {
+        position: relative;
+        width: 100%;
+        height: 100%;
+      }
+
+      .slider-image {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        opacity: 0;
+        transition: opacity 0.3s ease, transform 0.3s ease;
+        object-fit: cover;
+        cursor: pointer;
+      }
+
+      .slider-image.active {
+        opacity: 1;
+      }
+
+      .slider-image:hover {
+        transform: scale(1.02);
+      }
+
+      .nav-button {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        background: rgba(255, 255, 255, 0.9);
+        border: none;
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.25rem;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        z-index: 2;
+      }
+
+      .nav-button.prev {
+        left: 1rem;
+      }
+
+      .nav-button.next {
+        right: 1rem;
+      }
+
+      .image-counter {
+        position: absolute;
+        left: 1rem;
+        bottom: 1rem;
+        background: rgba(0, 0, 0, 0.7);
+        color: white;
+        padding: 0.25rem 0.75rem;
+        border-radius: 1rem;
+        font-size: 0.875rem;
+        z-index: 2;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+      }
+
+      .view-360 {
+        display: none;
+      }
+
+      .action-buttons {
+        position: absolute;
+        right: 1rem;
+        bottom: -1rem;
+        display: flex;
+        gap: 0.5rem;
+        z-index: 2;
+      }
+
+      .action-button {
+        background: white;
+        border: none;
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      }
+
+      /* Bottom Actions */
+      .bottom-actions {
+        position: fixed;
+        bottom: 20px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 90%;
+        max-width: 750px;
+        display: flex;
+        gap: 0.5rem;
+        padding: 1rem;
+        background: white;
+        border-radius: 12px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        z-index: 100;
+      }
+
+      .action-link {
+        flex: 1;
+        padding: 0.75rem;
+        border-radius: 0.5rem;
+        text-decoration: none;
+        text-align: center;
+        font-weight: 500;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5rem;
+        white-space: nowrap;
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+      }
+
+      .action-link:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+      }
+
+      .test-drive {
+        background: #e8f0fe;
+        color: #1a73e8;
+      }
+
+      .test-drive:hover {
+        background: #d6e7fe;
+      }
+
+      .call {
+        background: #fee2e2;
+        color: #dc2626;
+      }
+
+      .call:hover {
+        background: #fdd5d5;
+      }
+
+      .whatsapp {
+        background: #dcfce7;
+        color: #15803d;
+      }
+
+      .whatsapp:hover {
+        background: #cbf5d5;
+      }
+
+      /* Media query for tablet view */
+      @media (min-width: 600px) and (max-width: 759px) {
+        .bottom-actions {
+          flex-wrap: wrap;
+          justify-content: center;
+        }
+
+        .test-drive {
+          flex: 0 0 100%;
+          margin-bottom: 0.5rem;
+        }
+
+        .call,
+        .whatsapp {
+          flex: 1;
+        }
+      }
+
+      @media (min-width: 765px) {
+        .container {
+          display: none;
+        }
+      }
+
+      /* Add these styles in the <style> section */
+      .back-arrow {
+        position: absolute;
+        top: 1rem;
+        left: 1rem;
+        z-index: 10;
+        width: 40px;
+        height: 40px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: transparent;
+        border-radius: 50%;
+        border: none;
+        cursor: pointer;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      }
+
+      .back-arrow img {
+        width: 24px;
+        height: 24px;
+      }
+
+      /* Media Queries for Mobile */
+      @media (max-width: 480px) {
+        .bottom-actions {
+          width: 100%;
+          bottom: 0;
+          padding: 0.75rem 1rem;
+          border-radius: 0;
+          border-top: 1px solid #eee;
+          gap: 0.75rem;
+          background: white;
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+        }
+
+        .action-link {
+          padding: 0.5rem;
+          font-size: 13px;
+          height: 40px;
+          flex: none;
+        }
+
+        .test-drive {
+          width: 45%;
+          min-width: unset;
+          background: #e3f2fd;
+          color: #1565c0;
+        }
+
+        .call {
+          width: 35%;
+          min-width: unset;
+          background: #ffebee;
+          color: #d32f2f;
+        }
+
+        .whatsapp {
+          width: 40px;
+          background: #e8f5e9;
+          color: #388e3c;
+          padding: 0;
+          justify-content: center;
+        }
+
+        .whatsapp img {
+          margin: 0;
+        }
+
+        .bottom-actions > *:not(.test-drive):not(.call):not(.whatsapp) {
+          display: none;
+        }
+
+        body {
+          padding-bottom: 70px;
+        }
+      }
+
+      /* Tablet view adjustments */
+      @media (min-width: 481px) and (max-width: 759px) {
+        .bottom-actions {
+          width: 95%;
+          bottom: 10px;
+          padding: 0.75rem;
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+        }
+
+        .test-drive {
+          width: 45%;
+          min-width: unset;
+        }
+
+        .call {
+          width: 35%;
+          min-width: unset;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <button class="back-arrow" onclick="window.history.back()">
+        <img src="./images/arrow.svg" alt="Back" />
+      </button>
+
+      <!-- Slider -->
+      <div class="slider">
+        <div class="slider-container" id="sliderContainer">
+          <!-- Images will be inserted here by JavaScript -->
+        </div>
+
+        <div class="image-counter">
+          <span class="image-counter-icon"
+            ><img src="./images/Gallery.svg" alt=""
+          /></span>
+          <span id="currentSlide">1</span> / <span id="totalSlides">19</span>
+        </div>
+      </div>
+      <div class="action-buttons">
+        <button class="action-button">
+          <img src="./images/loveIcon.svg" alt="loveIcon" />
+        </button>
+        <button class="action-button">
+          <img src="./images/shareIcon.svg" alt="shareIcon" />
+        </button>
+      </div>
+
+      <!-- Bottom Actions -->
+      <div class="bottom-actions">
+        <a href="page2.html" class="action-link test-drive"
+          ><span><img src="./images/CarIcon.svg" alt="CarIcon" /></span> Test
+          Drive</a
+        >
+        <a href="page2.html" class="action-link call">📞 Call</a>
+        <a href="page2.html" class="action-link whatsapp"
+          ><span><img src="./images/wpImg.svg" alt="" /></span>
+        </a>
+      </div>
+    </div>
+
+    <script>
+      // Function to check screen width and redirect to Home.html
+      function checkScreenWidth() {
+        if (window.innerWidth >= 760 && !sessionStorage.getItem("navigating")) {
+          window.location.href = "Home.html";
+        }
+      }
+
+      // Check on resize with debounce
+      let resizeTimer;
+      window.addEventListener("resize", () => {
+        clearTimeout(resizeTimer);
+        resizeTimer = setTimeout(() => {
+          checkScreenWidth();
+        }, 250);
+      });
+
+      // Remove the check on initial load since we want to stay on Home2.html if we came here intentionally
+      if (document.referrer === "") {
+        checkScreenWidth();
+      }
+    </script>
+
+    <script>
+      class ImageSlider {
+        constructor(containerId, totalImages) {
+          this.container = document.getElementById(containerId);
+          this.currentIndex = 0;
+          this.totalImages = totalImages;
+          this.images = [];
+          this.startX = 0;
+          this.endX = 0;
+
+          // Initialize elements
+          this.currentSlideElement = document.getElementById("currentSlide");
+          this.totalSlidesElement = document.getElementById("totalSlides");
+
+          // Initialize slider
+          this.init();
+
+          // Add touch event listeners
+          this.container.addEventListener("touchstart", (e) =>
+            this.touchStart(e)
+          );
+          this.container.addEventListener("touchend", (e) => this.touchEnd(e));
+
+          // Add click handler for the container
+          this.container.addEventListener("click", (e) => {
+            // Check if clicked element is a slider image
+            if (e.target.classList.contains("slider-image")) {
+              window.location.href = "page2.html";
+            }
+          });
+        }
+
+        init() {
+          // Create placeholder images
+          for (let i = 0; i < this.totalImages; i++) {
+            const img = document.createElement("img");
+            img.src = `/placeholder.svg?height=720&width=1280&text=Image ${
+              i + 1
+            }`;
+            img.alt = `Car view ${i + 1}`;
+            img.className = "slider-image";
+            img.style.cursor = "pointer"; // Add pointer cursor
+            if (i === 0) img.classList.add("active");
+            this.container.appendChild(img);
+            this.images.push(img);
+          }
+
+          // Update counter
+          this.updateCounter();
+        }
+
+        updateCounter() {
+          this.currentSlideElement.textContent = this.currentIndex + 1;
+          this.totalSlidesElement.textContent = this.totalImages;
+        }
+
+        showSlide(index) {
+          // Remove active class from all images
+          this.images.forEach((img) => img.classList.remove("active"));
+          // Add active class to current image
+          this.images[index].classList.add("active");
+          // Update counter
+          this.updateCounter();
+        }
+
+        nextSlide() {
+          this.currentIndex = (this.currentIndex + 1) % this.totalImages;
+          this.showSlide(this.currentIndex);
+        }
+
+        prevSlide() {
+          this.currentIndex =
+            (this.currentIndex - 1 + this.totalImages) % this.totalImages;
+          this.showSlide(this.currentIndex);
+        }
+
+        touchStart(e) {
+          this.startX = e.touches[0].clientX;
+        }
+
+        touchEnd(e) {
+          this.endX = e.changedTouches[0].clientX;
+
+          if (this.startX - this.endX > 50) {
+            this.nextSlide();
+          } else if (this.startX - this.endX < -50) {
+            this.prevSlide();
+          }
+        }
+
+        updateImages(imageUrls) {
+          imageUrls.forEach((url, index) => {
+            if (this.images[index]) {
+              this.images[index].src = url;
+            }
+          });
+        }
+      }
+
+      // Initialize the slider with 19 images
+      const slider = new ImageSlider("sliderContainer", 19);
+
+      // Update with the actual images from page2.html
+      slider.updateImages([
+        "./images/360.avif",
+        "./images/img1.avif",
+        "./images/2ndimg.jpg",
+        "./images/3rdImg.avif",
+        "./images/img1.avif",
+        "./images/img4.avif",
+        "./images/img5.avif",
+        "./images/img7.webp",
+        "./images/img8.webp",
+        "./images/img9.avif",
+        "./images/img10.avif",
+        "./images/img11.avif",
+        "./images/img12.avif",
+        "./images/img13.avif",
+        "./images/img14.avif",
+        "./images/img15.webp",
+        "./images/img16.avif",
+        "./images/img17.avif",
+        "./images/img18.avif",
+      ]);
+    </script>
+  </body>
+</html>
