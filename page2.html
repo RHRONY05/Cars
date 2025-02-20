@@ -9,6 +9,131 @@
       rel="stylesheet"
       href="https://fonts.googleapis.com/icon?family=Material+Icons"
     />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"
+    />
+
+    <style>
+      /* Update lightbox styles */
+      .lightbox {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.95);
+        z-index: 9999;
+        display: none;
+        opacity: 0;
+        transition: opacity 0.3s ease;
+      }
+
+      .lightbox.active {
+        display: block;
+        opacity: 1;
+      }
+
+      .lightbox-swiper {
+        width: 100%;
+        height: 100vh;
+      }
+
+      .lightbox-swiper .swiper-slide {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        overflow: hidden;
+      }
+
+      .lightbox-swiper img {
+        max-width: 100%;
+        max-height: 100vh;
+        object-fit: contain;
+        user-select: none;
+        -webkit-user-drag: none;
+      }
+
+      /* Remove padding that was causing the gap */
+      .swiper-wrapper {
+        align-items: center;
+        height: 100%;
+      }
+
+      /* Make gallery images clickable */
+      .gallery img {
+        cursor: pointer;
+      }
+
+      .lightbox-close {
+        position: fixed;
+        top: 20px;
+        left: 20px;
+        z-index: 1001;
+        background: rgba(255, 255, 255, 0.9);
+        border: none;
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .image-counter {
+        position: static;
+        left: auto;
+        top: auto;
+        color: white;
+        font-size: 14px;
+        display: flex;
+        align-items: center;
+        gap: 4px;
+        background: rgba(0, 0, 0, 0.7);
+        padding: 8px 16px;
+        border-radius: 20px;
+        font-weight: 500;
+      }
+
+      .image-counter .current,
+      .image-counter .total {
+        font-weight: 600;
+      }
+
+      .lightbox-nav {
+        position: fixed;
+        bottom: 30px;
+        left: 50%;
+        transform: translateX(-50%);
+        display: flex;
+        align-items: center;
+        gap: 20px;
+        z-index: 1001;
+      }
+
+      .nav-arrow {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.9);
+        border: none;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: background-color 0.2s;
+      }
+
+      .nav-arrow:hover {
+        background: rgba(255, 255, 255, 1);
+      }
+
+      .nav-arrow .material-icons {
+        color: #333;
+        font-size: 24px;
+      }
+    </style>
   </head>
   <body>
     <!-- Navbar -->
@@ -126,7 +251,7 @@
     <div class="sticky-footer">
       <!-- Logo -->
       <div class="logo-placeholder">
-        <img src="./images/logo.avif" alt="logo">
+        <img src="./images/logo.avif" alt="logo" />
       </div>
 
       <!-- Brand Name -->
@@ -146,7 +271,113 @@
         </button>
       </div>
     </div>
+    <!-- Lightbox -->
+    <div class="lightbox">
+      <button class="lightbox-close">
+        <span class="material-icons">close</span>
+      </button>
+
+      <div class="lightbox-swiper">
+        <div class="swiper-wrapper">
+          <!-- Slides will be added by JavaScript -->
+        </div>
+      </div>
+
+      <!-- Updated navigation arrows with counter -->
+      <div class="lightbox-nav">
+        <button class="nav-arrow prev-slide">
+          <span class="material-icons">arrow_back</span>
+        </button>
+        <div class="image-counter">
+          Showing <span class="current">1</span> of
+          <span class="total">18</span>
+        </div>
+        <button class="nav-arrow next-slide">
+          <span class="material-icons">arrow_forward</span>
+        </button>
+      </div>
+    </div>
+    <!-- Move Swiper JS before your script -->
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+
     <script>
+      // Wait for DOM content to be loaded
+      document.addEventListener("DOMContentLoaded", () => {
+        // Get all gallery images
+        const galleryImages = document.querySelectorAll(".gallery img");
+        const lightbox = document.querySelector(".lightbox");
+        const lightboxClose = document.querySelector(".lightbox-close");
+        const swiperWrapper = document.querySelector(
+          ".lightbox-swiper .swiper-wrapper"
+        );
+
+        // Collect all image sources in order
+        const imageSources = Array.from(galleryImages).map((img) => img.src);
+
+        // Create slides
+        imageSources.forEach((src) => {
+          const slide = document.createElement("div");
+          slide.className = "swiper-slide";
+          const img = document.createElement("img");
+          img.src = src;
+          slide.appendChild(img);
+          swiperWrapper.appendChild(slide);
+        });
+
+        // Initialize Swiper
+        const lightboxSwiper = new Swiper(".lightbox-swiper", {
+          grabCursor: true,
+          slidesPerView: 1,
+          initialSlide: 0,
+          speed: 400,
+          effect: "slide",
+          resistance: true,
+          resistanceRatio: 0.65,
+          loop: true,
+          navigation: {
+            nextEl: ".next-slide",
+            prevEl: ".prev-slide",
+          },
+          on: {
+            slideChange: function () {
+              // For loop mode, we need to handle the counter differently
+              let currentIndex = this.realIndex + 1; // realIndex is 0-based
+              let totalSlides = imageSources.length; // Use original array length
+
+              document.querySelector(".image-counter .current").textContent =
+                currentIndex;
+              document.querySelector(".image-counter .total").textContent =
+                totalSlides;
+            },
+          },
+        });
+
+        // Add click handlers to gallery images
+        galleryImages.forEach((img, index) => {
+          img.style.cursor = "pointer";
+          img.addEventListener("click", (e) => {
+            e.preventDefault();
+            lightbox.classList.add("active");
+            lightboxSwiper.slideToLoop(index, 0); // This will handle the loop properly
+            document.body.style.overflow = "hidden";
+          });
+        });
+
+        // Close lightbox
+        lightboxClose.addEventListener("click", () => {
+          lightbox.classList.remove("active");
+          document.body.style.overflow = "";
+        });
+
+        // Close on escape key
+        document.addEventListener("keydown", (e) => {
+          if (e.key === "Escape" && lightbox.classList.contains("active")) {
+            lightbox.classList.remove("active");
+            document.body.style.overflow = "";
+          }
+        });
+      });
+
       // Get the back button
       const backButton = document.querySelector(".back-button");
 

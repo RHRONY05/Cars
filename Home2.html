@@ -4,6 +4,10 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Car Slider</title>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"
+    />
     <style>
       * {
         margin: 0;
@@ -36,26 +40,26 @@
         position: relative;
         width: 100%;
         height: 100%;
+        display: flex;
+        transition: transform 0.5s cubic-bezier(0.33, 1, 0.68, 1);
       }
 
       .slider-image {
-        position: absolute;
-        top: 0;
-        left: 0;
+        flex: 0 0 100%;
         width: 100%;
         height: 100%;
-        opacity: 0;
-        transition: opacity 0.3s ease, transform 0.3s ease;
         object-fit: cover;
-        cursor: pointer;
+        cursor: grab;
+        user-select: none;
       }
 
-      .slider-image.active {
-        opacity: 1;
+      .slider-container.dragging {
+        transition: none;
+        cursor: grabbing;
       }
 
-      .slider-image:hover {
-        transform: scale(1.02);
+      .slider-container.dragging .slider-image {
+        cursor: grabbing;
       }
 
       .nav-button {
@@ -209,7 +213,7 @@
 
       @media (min-width: 765px) {
         .container {
-          display: none;
+          max-width: 1000px;
         }
       }
 
@@ -314,6 +318,23 @@
           min-width: unset;
         }
       }
+
+      .swiper {
+        width: 100%;
+        aspect-ratio: 16/9;
+        background: #f5f5f5;
+      }
+
+      .swiper-slide {
+        width: 100%;
+        height: 100%;
+      }
+
+      .swiper-slide img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
     </style>
   </head>
   <body>
@@ -322,17 +343,16 @@
         <img src="./images/arrow.svg" alt="Back" />
       </button>
 
-      <!-- Slider -->
-      <div class="slider">
-        <div class="slider-container" id="sliderContainer">
-          <!-- Images will be inserted here by JavaScript -->
+      <!-- Swiper -->
+      <div class="swiper">
+        <div class="swiper-wrapper">
+          <!-- Slides will be added by JavaScript -->
         </div>
-
         <div class="image-counter">
-          <span class="image-counter-icon"
-            ><img src="./images/Gallery.svg" alt=""
-          /></span>
-          <span id="currentSlide">1</span> / <span id="totalSlides">19</span>
+          <span class="image-counter-icon">
+            <img src="./images/Gallery.svg" alt="" />
+          </span>
+          <span class="current">1</span> / <span class="total">19</span>
         </div>
       </div>
       <div class="action-buttons">
@@ -357,10 +377,14 @@
       </div>
     </div>
 
+    <!-- Add Swiper JS -->
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+
     <script>
       // Function to check screen width and redirect to Home.html
       function checkScreenWidth() {
         if (window.innerWidth >= 760 && !sessionStorage.getItem("navigating")) {
+          sessionStorage.setItem("navigating", "true");
           window.location.href = "Home.html";
         }
       }
@@ -369,121 +393,23 @@
       let resizeTimer;
       window.addEventListener("resize", () => {
         clearTimeout(resizeTimer);
-        resizeTimer = setTimeout(() => {
-          checkScreenWidth();
-        }, 250);
+        resizeTimer = setTimeout(checkScreenWidth, 250);
       });
 
-      // Remove the check on initial load since we want to stay on Home2.html if we came here intentionally
-      if (document.referrer === "") {
+      // Check on load if not coming from Home.html
+      if (document.referrer.indexOf("Home.html") === -1) {
         checkScreenWidth();
       }
+
+      // Clear navigation flag when leaving the page
+      window.addEventListener("unload", () => {
+        sessionStorage.removeItem("navigating");
+      });
     </script>
 
     <script>
-      class ImageSlider {
-        constructor(containerId, totalImages) {
-          this.container = document.getElementById(containerId);
-          this.currentIndex = 0;
-          this.totalImages = totalImages;
-          this.images = [];
-          this.startX = 0;
-          this.endX = 0;
-
-          // Initialize elements
-          this.currentSlideElement = document.getElementById("currentSlide");
-          this.totalSlidesElement = document.getElementById("totalSlides");
-
-          // Initialize slider
-          this.init();
-
-          // Add touch event listeners
-          this.container.addEventListener("touchstart", (e) =>
-            this.touchStart(e)
-          );
-          this.container.addEventListener("touchend", (e) => this.touchEnd(e));
-
-          // Add click handler for the container
-          this.container.addEventListener("click", (e) => {
-            // Check if clicked element is a slider image
-            if (e.target.classList.contains("slider-image")) {
-              window.location.href = "page2.html";
-            }
-          });
-        }
-
-        init() {
-          // Create placeholder images
-          for (let i = 0; i < this.totalImages; i++) {
-            const img = document.createElement("img");
-            img.src = `/placeholder.svg?height=720&width=1280&text=Image ${
-              i + 1
-            }`;
-            img.alt = `Car view ${i + 1}`;
-            img.className = "slider-image";
-            img.style.cursor = "pointer"; // Add pointer cursor
-            if (i === 0) img.classList.add("active");
-            this.container.appendChild(img);
-            this.images.push(img);
-          }
-
-          // Update counter
-          this.updateCounter();
-        }
-
-        updateCounter() {
-          this.currentSlideElement.textContent = this.currentIndex + 1;
-          this.totalSlidesElement.textContent = this.totalImages;
-        }
-
-        showSlide(index) {
-          // Remove active class from all images
-          this.images.forEach((img) => img.classList.remove("active"));
-          // Add active class to current image
-          this.images[index].classList.add("active");
-          // Update counter
-          this.updateCounter();
-        }
-
-        nextSlide() {
-          this.currentIndex = (this.currentIndex + 1) % this.totalImages;
-          this.showSlide(this.currentIndex);
-        }
-
-        prevSlide() {
-          this.currentIndex =
-            (this.currentIndex - 1 + this.totalImages) % this.totalImages;
-          this.showSlide(this.currentIndex);
-        }
-
-        touchStart(e) {
-          this.startX = e.touches[0].clientX;
-        }
-
-        touchEnd(e) {
-          this.endX = e.changedTouches[0].clientX;
-
-          if (this.startX - this.endX > 50) {
-            this.nextSlide();
-          } else if (this.startX - this.endX < -50) {
-            this.prevSlide();
-          }
-        }
-
-        updateImages(imageUrls) {
-          imageUrls.forEach((url, index) => {
-            if (this.images[index]) {
-              this.images[index].src = url;
-            }
-          });
-        }
-      }
-
-      // Initialize the slider with 19 images
-      const slider = new ImageSlider("sliderContainer", 19);
-
-      // Update with the actual images from page2.html
-      slider.updateImages([
+      // Initialize Swiper
+      const images = [
         "./images/360.avif",
         "./images/img1.avif",
         "./images/2ndimg.jpg",
@@ -503,7 +429,49 @@
         "./images/img16.avif",
         "./images/img17.avif",
         "./images/img18.avif",
-      ]);
+      ];
+
+      // Create slides
+      const swiperWrapper = document.querySelector(".swiper-wrapper");
+      images.forEach((src) => {
+        const slide = document.createElement("div");
+        slide.className = "swiper-slide";
+        const img = document.createElement("img");
+        img.src = src;
+        img.alt = "Car view";
+        slide.appendChild(img);
+        swiperWrapper.appendChild(slide);
+      });
+
+      // Initialize Swiper
+      const swiper = new Swiper(".swiper", {
+        grabCursor: true,
+        effect: "creative",
+        creativeEffect: {
+          prev: {
+            translate: ["-20%", 0, -1],
+          },
+          next: {
+            translate: ["100%", 0, 0],
+          },
+        },
+        speed: 500,
+        resistance: true,
+        resistanceRatio: 0.65,
+        on: {
+          slideChange: function () {
+            document.querySelector(".current").textContent =
+              this.activeIndex + 1;
+            document.querySelector(".total").textContent = this.slides.length;
+          },
+          click: function (swiper, event) {
+            // Check if it was a tap/click (not a swipe)
+            if (!swiper.isDragged) {
+              window.location.href = "page2.html";
+            }
+          },
+        },
+      });
     </script>
   </body>
 </html>

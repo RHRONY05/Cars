@@ -368,10 +368,15 @@
         </div>
 
         <div class="action-buttons">
-          <button class="book-test"><span><img src="./images/CarIcon.svg" alt="CarIcon"></span> Book Test Drive</button>
+          <button class="book-test">
+            <span><img src="./images/CarIcon.svg" alt="CarIcon" /></span> Book
+            Test Drive
+          </button>
           <div class="contact-buttons">
             <button class="call-btn"><span>📞</span> Call</button>
-            <button class="whatsapp-btn"><span><img src="./images/wpImg.svg" alt="Whatsapp"></span></button>
+            <button class="whatsapp-btn">
+              <span><img src="./images/wpImg.svg" alt="Whatsapp" /></span>
+            </button>
           </div>
         </div>
       </div>
@@ -398,18 +403,30 @@
         img.style.cursor = "pointer";
       });
 
-      // Check screen width on page load
+      // Check screen width on page load and resize
       function checkScreenWidth() {
-        if (window.innerWidth < 760) {
+        if (window.innerWidth < 760 && !sessionStorage.getItem("navigating")) {
+          sessionStorage.setItem("navigating", "true");
           window.location.href = "Home2.html";
         }
       }
 
-      // Check on load
-      checkScreenWidth();
+      // Check on load if not coming from Home2.html
+      if (document.referrer.indexOf("Home2.html") === -1) {
+        checkScreenWidth();
+      }
 
-      // Optional: Check on resize
-      window.addEventListener("resize", checkScreenWidth);
+      // Check on resize with debounce
+      let resizeTimer;
+      window.addEventListener("resize", () => {
+        clearTimeout(resizeTimer);
+        resizeTimer = setTimeout(checkScreenWidth, 250);
+      });
+
+      // Clear navigation flag when leaving the page
+      window.addEventListener("unload", () => {
+        sessionStorage.removeItem("navigating");
+      });
     </script>
   </body>
 </html>
