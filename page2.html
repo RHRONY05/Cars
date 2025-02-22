@@ -324,7 +324,7 @@
           swiperWrapper.appendChild(slide);
         });
 
-        // Initialize Swiper
+        // Initialize Swiper with keyboard navigation enabled
         const lightboxSwiper = new Swiper(".lightbox-swiper", {
           grabCursor: true,
           slidesPerView: 1,
@@ -334,6 +334,10 @@
           resistance: true,
           resistanceRatio: 0.65,
           loop: true,
+          keyboard: {
+            enabled: true,
+            onlyInViewport: true,
+          },
           navigation: {
             nextEl: ".next-slide",
             prevEl: ".prev-slide",

@@ -77,15 +77,15 @@
         justify-content: center;
         font-size: 1.25rem;
         box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        z-index: 2;
+        z-index: 10;
       }
 
-      .nav-button.prev {
-        left: 1rem;
+      .nav-button.prev-slide {
+        left: 10px;
       }
 
-      .nav-button.next {
-        right: 1rem;
+      .nav-button.next-slide {
+        right: 10px;
       }
 
       .image-counter {
@@ -348,6 +348,9 @@
         <div class="swiper-wrapper">
           <!-- Slides will be added by JavaScript -->
         </div>
+        <!-- Added Navigation Arrows -->
+        <button class="nav-button prev-slide">&#8592;</button>
+        <button class="nav-button next-slide">&#8594;</button>
         <div class="image-counter">
           <span class="image-counter-icon">
             <img src="./images/Gallery.svg" alt="" />
@@ -405,45 +408,8 @@
       window.addEventListener("unload", () => {
         sessionStorage.removeItem("navigating");
       });
-    </script>
 
-    <script>
-      // Initialize Swiper
-      const images = [
-        "./images/360.avif",
-        "./images/img1.avif",
-        "./images/2ndimg.jpg",
-        "./images/3rdImg.avif",
-        "./images/img1.avif",
-        "./images/img4.avif",
-        "./images/img5.avif",
-        "./images/img7.webp",
-        "./images/img8.webp",
-        "./images/img9.avif",
-        "./images/img10.avif",
-        "./images/img11.avif",
-        "./images/img12.avif",
-        "./images/img13.avif",
-        "./images/img14.avif",
-        "./images/img15.webp",
-        "./images/img16.avif",
-        "./images/img17.avif",
-        "./images/img18.avif",
-      ];
-
-      // Create slides
-      const swiperWrapper = document.querySelector(".swiper-wrapper");
-      images.forEach((src) => {
-        const slide = document.createElement("div");
-        slide.className = "swiper-slide";
-        const img = document.createElement("img");
-        img.src = src;
-        img.alt = "Car view";
-        slide.appendChild(img);
-        swiperWrapper.appendChild(slide);
-      });
-
-      // Initialize Swiper
+      // Initialize Swiper with navigation and keyboard support
       const swiper = new Swiper(".swiper", {
         grabCursor: true,
         effect: "creative",
@@ -458,6 +424,14 @@
         speed: 500,
         resistance: true,
         resistanceRatio: 0.65,
+        keyboard: {
+          enabled: true,
+          onlyInViewport: false,
+        },
+        navigation: {
+          nextEl: ".next-slide",
+          prevEl: ".prev-slide",
+        },
         on: {
           slideChange: function () {
             document.querySelector(".current").textContent =
