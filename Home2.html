@@ -14,19 +14,16 @@
         padding: 0;
         box-sizing: border-box;
       }
-
       body {
         font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
           sans-serif;
         padding-bottom: 100px;
       }
-
       .container {
         max-width: 750px;
         margin: 0 auto;
         position: relative;
       }
-
       /* Slider */
       .slider {
         position: relative;
@@ -35,7 +32,6 @@
         background: #f5f5f5;
         overflow: hidden;
       }
-
       .slider-container {
         position: relative;
         width: 100%;
@@ -43,7 +39,6 @@
         display: flex;
         transition: transform 0.5s cubic-bezier(0.33, 1, 0.68, 1);
       }
-
       .slider-image {
         flex: 0 0 100%;
         width: 100%;
@@ -52,16 +47,13 @@
         cursor: grab;
         user-select: none;
       }
-
       .slider-container.dragging {
         transition: none;
         cursor: grabbing;
       }
-
       .slider-container.dragging .slider-image {
         cursor: grabbing;
       }
-
       .nav-button {
         position: absolute;
         top: 50%;
@@ -79,15 +71,12 @@
         box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         z-index: 10;
       }
-
       .nav-button.prev-slide {
         left: 10px;
       }
-
       .nav-button.next-slide {
         right: 10px;
       }
-
       .image-counter {
         position: absolute;
         left: 1rem;
@@ -102,11 +91,9 @@
         align-items: center;
         gap: 0.5rem;
       }
-
       .view-360 {
         display: none;
       }
-
       .action-buttons {
         position: absolute;
         right: 1rem;
@@ -115,7 +102,6 @@
         gap: 0.5rem;
         z-index: 2;
       }
-
       .action-button {
         background: white;
         border: none;
@@ -128,7 +114,6 @@
         justify-content: center;
         box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
       }
-
       /* Bottom Actions */
       .bottom-actions {
         position: fixed;
@@ -145,7 +130,6 @@
         box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
         z-index: 100;
       }
-
       .action-link {
         flex: 1;
         padding: 0.75rem;
@@ -160,63 +144,51 @@
         white-space: nowrap;
         transition: transform 0.2s ease, box-shadow 0.2s ease;
       }
-
       .action-link:hover {
         transform: translateY(-2px);
         box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
       }
-
       .test-drive {
         background: #e8f0fe;
         color: #1a73e8;
       }
-
       .test-drive:hover {
         background: #d6e7fe;
       }
-
       .call {
         background: #fee2e2;
         color: #dc2626;
       }
-
       .call:hover {
         background: #fdd5d5;
       }
-
       .whatsapp {
         background: #dcfce7;
         color: #15803d;
       }
-
       .whatsapp:hover {
         background: #cbf5d5;
       }
-
       /* Media query for tablet view */
       @media (min-width: 600px) and (max-width: 759px) {
         .bottom-actions {
           flex-wrap: wrap;
           justify-content: center;
         }
-
         .test-drive {
           flex: 0 0 100%;
           margin-bottom: 0.5rem;
         }
-
         .call,
         .whatsapp {
           flex: 1;
         }
       }
-
       @media (min-width: 765px) {
         .container {
           max-width: 1000px;
         }
       }
-
       /* Add these styles in the <style> section */
       .back-arrow {
         position: absolute;
@@ -234,12 +206,10 @@
         cursor: pointer;
         box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
       }
-
       .back-arrow img {
         width: 24px;
         height: 24px;
       }
-
       /* Media Queries for Mobile */
       @media (max-width: 480px) {
         .bottom-actions {
@@ -254,28 +224,24 @@
           justify-content: space-between;
           align-items: center;
         }
-
         .action-link {
           padding: 0.5rem;
           font-size: 13px;
           height: 40px;
           flex: none;
         }
-
         .test-drive {
           width: 45%;
           min-width: unset;
           background: #e3f2fd;
           color: #1565c0;
         }
-
         .call {
           width: 35%;
           min-width: unset;
           background: #ffebee;
           color: #d32f2f;
         }
-
         .whatsapp {
           width: 40px;
           background: #e8f5e9;
@@ -283,20 +249,16 @@
           padding: 0;
           justify-content: center;
         }
-
         .whatsapp img {
           margin: 0;
         }
-
         .bottom-actions > *:not(.test-drive):not(.call):not(.whatsapp) {
           display: none;
         }
-
         body {
           padding-bottom: 70px;
         }
       }
-
       /* Tablet view adjustments */
       @media (min-width: 481px) and (max-width: 759px) {
         .bottom-actions {
@@ -307,29 +269,24 @@
           justify-content: space-between;
           align-items: center;
         }
-
         .test-drive {
           width: 45%;
           min-width: unset;
         }
-
         .call {
           width: 35%;
           min-width: unset;
         }
       }
-
       .swiper {
         width: 100%;
         aspect-ratio: 16/9;
         background: #f5f5f5;
       }
-
       .swiper-slide {
         width: 100%;
         height: 100%;
       }
-
       .swiper-slide img {
         width: 100%;
         height: 100%;
@@ -346,11 +303,10 @@
       <!-- Swiper -->
       <div class="swiper">
         <div class="swiper-wrapper">
-          <!-- Slides will be added by JavaScript -->
+          <!-- Slides will be dynamically created -->
         </div>
         <!-- Added Navigation Arrows -->
-        <button class="nav-button prev-slide">&#8592;</button>
-        <button class="nav-button next-slide">&#8594;</button>
+        
         <div class="image-counter">
           <span class="image-counter-icon">
             <img src="./images/Gallery.svg" alt="" />
@@ -370,9 +326,7 @@
       <!-- Bottom Actions -->
       <div class="bottom-actions">
         <a href="page2.html" class="action-link test-drive"
-          ><span><img src="./images/CarIcon.svg" alt="CarIcon" /></span> Test
-          Drive</a
-        >
+          ><span><img src="./images/CarIcon.svg" alt="CarIcon" /></span> Test Drive</a>
         <a href="page2.html" class="action-link call">📞 Call</a>
         <a href="page2.html" class="action-link whatsapp"
           ><span><img src="./images/wpImg.svg" alt="" /></span>
@@ -391,35 +345,61 @@
           window.location.href = "Home.html";
         }
       }
-
       // Check on resize with debounce
       let resizeTimer;
       window.addEventListener("resize", () => {
         clearTimeout(resizeTimer);
         resizeTimer = setTimeout(checkScreenWidth, 250);
       });
-
       // Check on load if not coming from Home.html
       if (document.referrer.indexOf("Home.html") === -1) {
         checkScreenWidth();
       }
-
       // Clear navigation flag when leaving the page
       window.addEventListener("unload", () => {
         sessionStorage.removeItem("navigating");
       });
-
+      
+      // Create slides dynamically (restore functionality from your original code)
+      const images = [
+        "./images/360.avif",
+        "./images/img1.avif",
+        "./images/2ndimg.jpg",
+        "./images/3rdImg.avif",
+        "./images/img1.avif",
+        "./images/img4.avif",
+        "./images/img5.avif",
+        "./images/img7.webp",
+        "./images/img8.webp",
+        "./images/img9.avif",
+        "./images/img10.avif",
+        "./images/img11.avif",
+        "./images/img12.avif",
+        "./images/img13.avif",
+        "./images/img14.avif",
+        "./images/img15.webp",
+        "./images/img16.avif",
+        "./images/img17.avif",
+        "./images/img18.avif"
+      ];
+      const swiperWrapper = document.querySelector('.swiper-wrapper');
+      images.forEach(src => {
+        const slide = document.createElement('div');
+        slide.className = 'swiper-slide';
+        const img = document.createElement('img');
+        img.src = src;
+        img.alt = "Car view";
+        slide.appendChild(img);
+        swiperWrapper.appendChild(slide);
+      });
+      
       // Initialize Swiper with navigation and keyboard support
       const swiper = new Swiper(".swiper", {
         grabCursor: true,
         effect: "creative",
         creativeEffect: {
-          prev: {
-            translate: ["-100%", 0, 0],
-          },
-          next: {
-            translate: ["100%", 0, 0],
-          },
+          prev: { translate: ["-100%", 0, 0] },
+          next: { translate: ["100%", 0, 0] },
         },
         speed: 500,
         resistance: true,
@@ -434,8 +414,7 @@
         },
         on: {
           slideChange: function () {
-            document.querySelector(".current").textContent =
-              this.activeIndex + 1;
+            document.querySelector(".current").textContent = this.activeIndex + 1;
             document.querySelector(".total").textContent = this.slides.length;
           },
           click: function (swiper, event) {
